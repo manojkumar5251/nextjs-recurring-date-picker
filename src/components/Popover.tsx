@@ -2,7 +2,7 @@
 import React from "react";
 import { useUncontrolled } from "../hooks";
 
-const Popover: React.FC<{
+export const Popover: React.FC<{
   children: React.ReactNode;
   content: React.ReactNode;
   opened?: boolean;
@@ -34,5 +34,3 @@ const Popover: React.FC<{
     </div>
   );
 };
-
-export default Popover;
