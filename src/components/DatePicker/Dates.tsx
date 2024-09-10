@@ -9,6 +9,8 @@ dayjs.extend(weekOfYear);
 interface ICalendarDates {
   showAllDays?: boolean;
   className?: React.HTMLAttributes<HTMLDivElement>["className"];
+  minDate?: Dayjs;
+  maxDate?: Dayjs;
 
   selectedDate?: Array<Dayjs>;
   setSelectedDate?: (value: Array<Dayjs>) => void;
@@ -26,6 +28,8 @@ export const CalendarDates: React.FC<ICalendarDates> = (props) => {
     className,
     multiple,
     highlightDates,
+    minDate,
+    maxDate,
   } = props;
 
   const daysInCurrentMonth = showAllDays ? 31 : displayDate.daysInMonth();
@@ -62,18 +66,24 @@ export const CalendarDates: React.FC<ICalendarDates> = (props) => {
         i = i + 1;
         const renderDate = displayDate.date(i);
         const selectedIndex = selectedDate!.findIndex((j) =>
-          j.isSame(renderDate, "days")
+          j?.isSame(renderDate, "days")
         );
         const selectedClassName =
           selectedIndex !== -1 ? "bg-cyan-500	text-white" : "";
         const recurringDateClassName =
           renderDate && highlightDates?.(renderDate) ? "bg-cyan-100" : "";
 
+        const disabledClassname =
+          (dayjs.isDayjs(minDate) && renderDate.isBefore(minDate, "date")) ||
+          (dayjs.isDayjs(maxDate) && renderDate.isAfter(maxDate))
+            ? "opacity-50 pointer-events-none cursor-not-allowed"
+            : "";
+
         return (
           <div
             key={i}
             onClick={() => onClick(renderDate, selectedIndex)}
-            className={`flex justify-center items-center h-8 w-8 p-0.5 cursor-pointer border rounded-full ${recurringDateClassName} ${selectedClassName}`}
+            className={`flex justify-center items-center h-8 w-8 p-0.5 cursor-pointer border rounded-full ${recurringDateClassName} ${selectedClassName} ${disabledClassname}`}
           >
             {i}
           </div>

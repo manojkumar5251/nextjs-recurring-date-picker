@@ -12,11 +12,15 @@ interface ICalendar {
   className?: React.HTMLAttributes<HTMLDivElement>["className"];
   selectedDate?: Dayjs[];
   setSelectedDate?: (value: Dayjs[]) => void;
+  minDate?: Dayjs;
+  maxDate?: Dayjs;
 }
 
 export const Calendar: React.FC<ICalendar> = (props) => {
   const ctx = useContext(RecurringDatesContext);
   const {
+    minDate,
+    maxDate,
     className,
     selectedDate = ctx.selectedDate,
     setSelectedDate = ctx.setSelectedDate,
@@ -122,6 +126,8 @@ export const Calendar: React.FC<ICalendar> = (props) => {
           <CalendarWeek />
 
           <CalendarDates
+            minDate={minDate}
+            maxDate={maxDate}
             selectedDate={_selectedDate}
             setSelectedDate={_setSelectedDate}
             displayDate={displayDate}

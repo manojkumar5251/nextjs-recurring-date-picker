@@ -10,10 +10,19 @@ interface IDatePicker {
   selectedDate?: Dayjs[];
   setSelectedDate?: (value: Dayjs[]) => void;
   children: React.ReactNode;
+  maxDate?: Dayjs;
+  minDate?: Dayjs;
 }
 
 export const DatePicker: React.FC<IDatePicker> = (props) => {
-  const { className, selectedDate, setSelectedDate, children } = props;
+  const {
+    className,
+    selectedDate,
+    setSelectedDate,
+    children,
+    maxDate,
+    minDate,
+  } = props;
   const [opened, setOpened] = useUncontrolled({ defaultValue: false });
 
   return (
@@ -21,6 +30,8 @@ export const DatePicker: React.FC<IDatePicker> = (props) => {
       opened={opened}
       content={
         <Calendar
+          maxDate={maxDate}
+          minDate={minDate}
           selectedDate={selectedDate}
           setSelectedDate={(val) => {
             setSelectedDate?.(val);
