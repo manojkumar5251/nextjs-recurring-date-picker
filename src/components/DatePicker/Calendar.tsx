@@ -61,16 +61,22 @@ export const Calendar: React.FC<ICalendar> = (props) => {
 
     let isRecurring = false;
 
+    const isDatebeforeEndDate = ctx.recurringEndRules?.date
+      ? date1.isSameOrBefore(ctx.recurringEndRules?.date, "d")
+      : true;
     switch (ctx.recurringRules.frequency) {
       case "daily": {
         isRecurring =
           date1.isSameOrAfter(date2, "d") &&
+          isDatebeforeEndDate &&
           date1.diff(date2, "d") % ctx.recurringRules.interval! === 0;
         break;
       }
+
       case "weekly": {
         isRecurring =
           date1.isSameOrAfter(date2, "d") &&
+          isDatebeforeEndDate &&
           (date1.week() - date2.week()) % ctx.recurringRules.interval! === 0 &&
           ctx.recurringRules.values!.includes(date1.day());
         break;
@@ -88,6 +94,7 @@ export const Calendar: React.FC<ICalendar> = (props) => {
       case "yearly": {
         isRecurring =
           date1.isSameOrAfter(date2, "d") &&
+          isDatebeforeEndDate &&
           date1.date() === ctx.recurringRules.values?.[0].date() &&
           date1.month() === ctx.recurringRules.values?.[0].month();
         break;
