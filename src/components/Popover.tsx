@@ -7,8 +7,8 @@ export const Popover: React.FC<{
   content: React.ReactNode;
   opened?: boolean;
   setOpened?: (value: boolean) => void;
-  position?: string;
-}> = ({ children, content, position, opened, setOpened }) => {
+  className?: React.HTMLAttributes<HTMLDivElement>["className"];
+}> = ({ children, content, className, opened, setOpened }) => {
   const [isOpen, setIsOpen] = useUncontrolled({
     defaultValue: false,
     value: opened,
@@ -25,7 +25,7 @@ export const Popover: React.FC<{
       {isOpen && (
         <React.Fragment>
           <div
-            className={`absolute z-10 w-max bg-white border border-gray-200 rounded-md shadow-lg p-1 mt-1 ${position}`}
+            className={`absolute z-10 w-max bg-white border border-gray-200 rounded-md shadow-lg p-1 mt-1 ${className}`}
           >
             {content}
           </div>
